@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HomeToGo - DecideRight Traveller Decision Engine</title>
+  <meta name="description" content="Explore holiday rentals with HomeToGo's DecideRight decision engine. Find the best price guarantees, rare finds, and curated shortlists for your next trip.">
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Simulation Control Panel (Sticky Top Bar for Prototype Control) -->
+  <aside id="simulation-panel" aria-label="Prototype controls">
+    <div class="sim-header">
+      <span class="sim-pill">PROTOTYPE SIMULATOR</span>
+      <h2>DecideRight Control Panel</h2>
+    </div>
+    <div class="sim-body">
+      <div class="control-group">
+        <label for="intent-scenario-select">Inferred Intent Archetype:</label>
+        <select id="intent-scenario-select">
+          <option value="generic">Generic Explorer (No Intent Anchor)</option>
+          <option value="family">Family Vacation (4 Guests, Kid-Friendly, 2+ Beds)</option>
+          <option value="romantic">Romantic Escape (2 Guests, Couple, High Ratings)</option>
+          <option value="lastminute">Last-Minute Urgency (Within 48h, Available)</option>
+          <option value="returning">Returning Planner (Past Stay: Mallorca 2025, €150/night)</option>
+        </select>
+      </div>
+      <div class="control-group">
+        <label for="search-destination">Destination:</label>
+        <input type="text" id="search-destination" value="Mallorca">
+      </div>
+      <div class="control-group">
+        <label for="search-checkin">Check-in:</label>
+        <input type="date" id="search-checkin" value="2026-07-15">
+      </div>
+      <div class="control-group">
+        <label for="search-checkout">Check-out:</label>
+        <input type="date" id="search-checkout" value="2026-07-22">
+      </div>
+      <div class="control-group">
+        <label for="guest-count">Guests:</label>
+        <input type="number" id="guest-count" value="2" min="1" max="10">
+      </div>
+      <button id="reset-prototype-btn" class="btn btn-secondary">Reset Simulation State</button>
+    </div>
+  </aside>
+
+  <!-- Core Layout -->
+  <div class="app-container">
+    
+    <!-- Header -->
+    <header class="main-header">
+      <a href="index.html" class="brand">
+        <img class="brand-logo-img" src="hometogo_logo.png" alt="HomeToGo Logo">
+      </a>
+      <div class="search-summary" id="search-summary-display">
+        <div class="search-field location-field">
+          <span class="search-label">Where</span>
+          <strong class="search-value">Mallorca, Spain</strong>
+        </div>
+        <div class="search-divider"></div>
+        <div class="search-field dates-field">
+          <span class="search-label">When</span>
+          <span class="search-value">Any dates</span>
+        </div>
+        <div class="search-divider"></div>
+        <div class="search-field guests-field">
+          <span class="search-label">Who</span>
+          <span class="search-value">2 guests</span>
+        </div>
+        <button class="search-icon-btn" aria-label="Search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="header-actions">
+        <span class="user-avatar">SC</span>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      
+      <!-- Top Area: Soft Suggestions Alert Banner -->
+      <section id="soft-suggestion-section" class="soft-suggestion-section" aria-live="polite">
+        <!-- Injected Dynamically by JS -->
+      </section>
+
+      <!-- Search Page Subheading -->
+      <div class="srp-title-row">
+        <h1 id="srp-main-heading">Holiday Rentals in Mallorca</h1>
+        <span id="results-count" class="results-count">8 properties found</span>
+      </div>
+
+      <!-- Layout Grid: Listings & LLM / Metric Console -->
+      <div class="srp-layout">
+        
+        <!-- Left Column: Search Results Grid -->
+        <section class="listings-column">
+          <div id="listings-grid" class="listings-grid">
+            <!-- Listings Cards & AI Shortlist Injected Dynamically -->
+          </div>
+        </section>
+
+        <!-- Right Column: Developer Console & LLM Payload Inspector -->
+        <section class="console-column">
+          <div class="glass-card console-card">
+            <div class="card-header">
+              <h3>🔧 DecideRight Sandbox Console</h3>
+            </div>
+            
+            <div class="metric-grid" style="grid-template-columns: 1fr 1fr 1fr;">
+              <div class="metric-card" style="border-right: 1px solid var(--border);">
+                <span class="metric-label">Conversion Lift</span>
+                <span id="metric-conversion-lift" class="metric-value">+0.0%</span>
+              </div>
+              <div class="metric-card" style="border-right: 1px solid var(--border);">
+                <span class="metric-label">Decision Time</span>
+                <span id="metric-decision-time" class="metric-value">4.2 min</span>
+              </div>
+              <div class="metric-card">
+                <span class="metric-label">Active AOV</span>
+                <span id="metric-active-aov" class="metric-value">€0</span>
+              </div>
+            </div>
+
+            <div class="console-section">
+              <h4>Phase 3: LLM Context Payload (Optimized JSON)</h4>
+              <p class="console-desc">This JSON payload is sent to the LLM. It is strictly optimized to contain only critical fields, avoiding descriptions/reviews to reduce latency.</p>
+              <pre id="llm-payload-display">No active LLM call.</pre>
+            </div>
+
+            <div class="console-section">
+              <h4>System Activity Log</h4>
+              <div id="activity-log" class="activity-log">
+                <div class="log-entry system">[System] DecideRight Engine Ready. Select a scenario.</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+      <p>&copy; 2026 HomeToGo. DecideRight decision engine prototype. Designed for Principal PM Portfolio.</p>
+    </footer>
+
+  </div>
+ 
+  <!-- Comparison Drawer (Phase 3 Segment C) -->
+  <div id="comparison-drawer" class="comparison-drawer hidden">
+    <div class="drawer-header">
+      <div class="drawer-title">
+        <svg class="drawer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+        </svg>
+        <span>Planner Workspace (<span id="compare-count">0</span> saved)</span>
+      </div>
+      <div class="drawer-actions">
+        <button id="open-compare-btn" class="btn btn-primary" style="padding: 6px 14px; font-size: 0.8rem; margin: 0;" disabled>Compare Side-by-Side</button>
+        <button id="clear-compare-btn" class="btn btn-dismiss-banner" style="padding: 6px 14px; font-size: 0.8rem; margin: 0;">Clear All</button>
+      </div>
+    </div>
+    <div id="drawer-items" class="drawer-items">
+      <!-- Saved thumbnails injected dynamically -->
+    </div>
+  </div>
+
+  <!-- Side-by-Side Comparison Overlay Modal -->
+  <div id="compare-modal" class="compare-modal hidden">
+    <div class="modal-content glass-card">
+      <div class="modal-header">
+        <h2>Planner Workspace: Side-by-Side Comparison</h2>
+        <button id="close-modal-btn" class="btn-close">&times;</button>
+      </div>
+      <div class="modal-body" id="compare-table-wrapper">
+        <!-- Comparison table injected dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="listings_data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
