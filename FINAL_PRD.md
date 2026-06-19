@@ -1,9 +1,9 @@
 # DecideRight: Traveller Decision System
 ## Product Requirements Document (FINAL_PRD.md)
 **Product**: HomeToGo Search Results Page (SRP) Decision Layer  
-**Framework**: STEP (Situation · Target · Explore · Plan) / PM Interview STEP Framework  
-**Author**: PM Agent (on behalf of Saurabh Chawda)  
-**Status**: APPROVED & VERIFIED (Step 15)
+**Framework**: STEP (Situation · Target · Explore · Plan)
+**Author**: Saurabh Chawda
+**Status**: APPROVED & VERIFIED 
 
 ---
 
